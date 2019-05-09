@@ -7,7 +7,10 @@
 <div id="app">
 
 <myheader></myheader>
-<myfooter></myfooter>
+    <div class="container">
+        <router-view></router-view>
+    </div>
+    <myfooter></myfooter>
 
 </div>
 
