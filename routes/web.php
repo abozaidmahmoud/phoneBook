@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('phonebook');
 });
+
+Route::get('/{route}', function ($route = null) {
+    return view('phonebook');
+})->where(['route' => '.*']);

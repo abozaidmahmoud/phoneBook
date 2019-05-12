@@ -7,7 +7,7 @@
 
       <div class="navbar-menu is-active">
         <div class="navbar-item">
-          <router-link to="/home" >Home</router-link>
+          <router-link to="/home" > Home</router-link>
 
         </div>
 
