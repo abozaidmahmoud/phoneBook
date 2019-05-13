@@ -30,7 +30,7 @@
     </nav>
 <!--Modal phoneBook add-->
     <Add v-bind:active="is_active" @closeModal="removeActive"></Add>
-    <Show v-bind:active="modal_show_active" @closeModal="removeActive"> </Show>
+    <Show v-bind:active="modal_show_active" v-bind:item="arr" @closeModal="removeActive"> </Show>
 
 
     </div>
@@ -48,6 +48,7 @@
                 list:{},
                 errors:'',
                 modal_show_active:'',
+                arr:'',
 
             }
         },
@@ -72,6 +73,16 @@
 
             showDetail(item){
                 this.modal_show_active='is-active';
+
+                axios.get('showData/'+item.id)
+                    .then((response)=>{
+                        console.log(response.data);
+                        this.arr=response.data;
+                    })
+                    .catch((error)=>{
+                        this.errors=error.response.data.errors;
+                    })
+
 
 
             }

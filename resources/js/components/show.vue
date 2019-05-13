@@ -5,12 +5,12 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">Modal show phone</p>
+        <p class="modal-card-title">Modal show phone </p>
         <button class="delete" aria-label="close" @click="close"></button>
       </header>
       <section class="modal-card-body">
         <div class="control has-icons-left has-icons-right">
-
+          {{item.name}}
         </div>
 
         <label class="has-text-danger" ></label>
@@ -38,7 +38,7 @@
 
 <script>
 export default {
-  props: ["active"],
+  props: ["active","item"],
   data() {
     return {
       errors:{},

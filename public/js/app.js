@@ -1939,7 +1939,8 @@ var Show = __webpack_require__(/*! ./show.vue */ "./resources/js/components/show
       is_active: false,
       list: {},
       errors: '',
-      modal_show_active: ''
+      modal_show_active: '',
+      arr: ''
     };
   },
   created: function created() {
@@ -1959,7 +1960,15 @@ var Show = __webpack_require__(/*! ./show.vue */ "./resources/js/components/show
       this.is_active = this.modal_show_active = '';
     },
     showDetail: function showDetail(item) {
+      var _this2 = this;
+
       this.modal_show_active = 'is-active';
+      axios.get('showData/' + item.id).then(function (response) {
+        console.log(response.data);
+        _this2.arr = response.data;
+      })["catch"](function (error) {
+        _this2.errors = error.response.data.errors;
+      });
     }
   }
 });
@@ -2014,7 +2023,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["active"],
+  props: ["active", "item"],
   data: function data() {
     return {
       errors: {}
@@ -38290,7 +38299,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("Show", {
-        attrs: { active: _vm.modal_show_active },
+        attrs: { active: _vm.modal_show_active, item: _vm.arr },
         on: { closeModal: _vm.removeActive }
       })
     ],
@@ -38499,7 +38508,7 @@ var render = function() {
     _c("div", { staticClass: "modal-card" }, [
       _c("header", { staticClass: "modal-card-head" }, [
         _c("p", { staticClass: "modal-card-title" }, [
-          _vm._v("Modal show phone")
+          _vm._v("Modal show phone ")
         ]),
         _vm._v(" "),
         _c("button", {
@@ -38510,7 +38519,9 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("section", { staticClass: "modal-card-body" }, [
-        _c("div", { staticClass: "control has-icons-left has-icons-right" }),
+        _c("div", { staticClass: "control has-icons-left has-icons-right" }, [
+          _vm._v("\n        " + _vm._s(_vm.item.name) + "\n      ")
+        ]),
         _vm._v(" "),
         _c("label", { staticClass: "has-text-danger" }),
         _vm._v(" "),
