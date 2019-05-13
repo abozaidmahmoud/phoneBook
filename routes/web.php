@@ -20,3 +20,5 @@ Route::get('/phonebook/{route}', function ($route = null) {
 })->where(['route' => '.*']);
 
 Route::resource('phonebook','PhoneController');
+Route::post('getData','PhoneController@getData');
+Route::get('show_detail/{id}','PhoneController@show_detail');

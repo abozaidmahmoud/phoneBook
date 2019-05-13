@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\phone;
 use Illuminate\Http\Request;
-use Validator;
+use App\Http\Requests\phonebook;
 
 class PhoneController extends Controller
 {
@@ -14,6 +14,9 @@ class PhoneController extends Controller
        return view('phonebook');
     }
 
+    public function getData(){
+        return phone::all();
+    }
   
     public function create()
     {
@@ -21,37 +24,18 @@ class PhoneController extends Controller
     }
 
   
-    public function store(Request $req)
+    public function store(phonebook $req)
     {
-        // $vaildate=Validator::make($req->all(),[
-        //     'name'=>'required|min:3|max:55',
-        //     'phone'=>'required|numeric|min:5|max:14',
-        //     'email'=>'required|email',
 
-        // ]);
-
-        $this->validate($req,[
-            'name'=>'required|min:3|max:55',
-            'phone'=>'required|numeric|min:5|max:14',
-            'email'=>'required|email',
-        ]);
-
-        // if($vaildate->fails()){
-        //     return response()->json(['msg'=>'error','error_validation'=>$vaildate->errors()]);
-        // }
-           phone::create($vaildate);
+           phone::create($req->all());
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Model\phone  $phone
-     * @return \Illuminate\Http\Response
-     */
-    public function show(phone $phone)
+    public function show_detail($id)
     {
-        //
+        return phone::find($id);
     }
+
+
 
     /**
      * Show the form for editing the specified resource.

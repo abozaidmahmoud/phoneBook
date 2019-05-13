@@ -14,8 +14,8 @@
       </span>
             </p>
         </div>
-        <a class="panel-block">
-            <span class="column is-9">marksheet</span>
+        <a class="panel-block" v-for="item,key in list">
+            <span class="column is-9">{{item.name}}</span>
           <span class="panel-icon column is-1">
              <i class="has-text-danger fa fa-trash" aria-hidden="true"></i>
           </span>
@@ -23,13 +23,14 @@
              <i class="has-text-dark fa fa-edit" aria-hidden="true"></i>
           </span>
             <span class="panel-icon column is-1">
-             <i class="has-text-info fa fa-eye" aria-hidden="true"></i>
+             <i class="has-text-info fa fa-eye" aria-hidden="true" @click="showDetail(item)"></i>
           </span>
 
         </a>
     </nav>
 <!--Modal phoneBook add-->
     <Add v-bind:active="is_active" @closeModal="removeActive"></Add>
+    <Show v-bind:active="modal_show_active" @closeModal="removeActive"> </Show>
 
 
     </div>
@@ -37,20 +38,42 @@
 
 <script>
     let Add = require('./add.vue').default;
+    let Show = require('./show.vue').default;
 
     export default ({
-        components:{Add},
+        components:{Add,Show},
         data(){
             return {
                 is_active:false,
+                list:{},
+                errors:'',
+                modal_show_active:'',
+
             }
         },
+
+        created(){
+            axios.post('getData')
+                .then((response)=>{
+                    this.list=response.data;
+                })
+                .catch((error)=>{
+                    this.errors=error.response.data.errors;
+                })
+        },
+
         methods:{
             addActive(){
                 this.is_active='is-active'
             },
             removeActive(){
-                this.is_active='';
+                this.is_active=this.modal_show_active='';
+            },
+
+            showDetail(item){
+                this.modal_show_active='is-active';
+
+
             }
         }
     })

@@ -1,3 +1,9 @@
+<style>
+  .input{
+    margin: 7px;
+  }
+</style>
+
 <template>
   <div class="modal" :class="active">
     <div class="modal-background"></div>
@@ -8,17 +14,18 @@
       </header>
       <section class="modal-card-body">
         <div class="control has-icons-left has-icons-right">
-          <input class="input" type="string" placeholder="name" v-model="list.name">
+          <input class="input" type="string" :class="{'is-danger':errors.name}" placeholder="name" v-model="list.name">
         </div>
+        <label class="has-text-danger" v-if="errors.name"><i class="fa fa-warning"></i> {{errors.name[0]}}</label>
+        <span v-if="list.name"></span>
+
         <label class="has-text-danger" ></label>
         <div class="control has-icons-left has-icons-right">
-          <input class="input" type="number" placeholder="phone" v-model="list.phone">
+          <input class="input" type="number" placeholder="phone" :class="{'is-danger':errors.phone}" v-model="list.phone">
         </div>
-         <label class="has-text-danger" v-bind="errors.phone"></label>
-
-
+        <label class="has-text-danger" v-if="errors.phone"><i class="fa fa-warning"></i> {{errors.phone[0]}}</label><br>
         <div class="control has-icons-left has-icons-right">
-          <input class="input" type="email" placeholder="Email" v-model="list.email">
+          <input class="input" type="email" placeholder="Email" :class="{'is-danger':errors.email}" v-model="list.email">
           <span class="icon is-medium is-left">
             <i class="fa fa-envelope"></i>
           </span>
@@ -26,8 +33,7 @@
             <i class="fa fa-check"></i>
           </span>
         </div>
-        <label class="has-text-danger" v-if="errors.email">{{errors['email']}}</label>
-
+        <label class="has-text-danger" v-if="errors.email"><i class="fa fa-warning"></i> {{errors.email[0]}}</label><br>
 
       </section>
       <footer class="modal-card-foot">
@@ -55,27 +61,29 @@ export default {
   methods: {
     close() {
       this.$emit("closeModal");
+      this.list={};
+      this.errors={};
     },
-    save() {
-                    // var self = this;
 
+
+
+    save() {
+      var self = this;
       axios
         .post("/phonebook", this.list)
-        
-  .then((response) => {
-                    if(response.data.msg=='error'){
-                        this.errors['name']=response.data.error_validation['name'][0];
-                        this.errors['email']=response.data.error_validation['email'][0];
-                        this.errors['phone']=response.data.error_validation['phone'][0];
-                    }
-                    
-                })
+          .then((response)=>{
+              this.close();
+              this.list={};
+          })
+
            
-        
+          .catch((error)=>
+              this.errors= error.response.data.errors
+
+           )
        
-        .catch(function(error) {
-          console.log(error);
-        });
+        // .catch(function(error) {
+        // });
     }
   }
 };
