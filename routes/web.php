@@ -12,9 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('phonebook');
+    return redirect('phonebook');
 });
 
-Route::get('/{route}', function ($route = null) {
+Route::get('/phonebook/{route}', function ($route = null) {
     return view('phonebook');
 })->where(['route' => '.*']);
+
+Route::resource('phonebook','PhoneController');
