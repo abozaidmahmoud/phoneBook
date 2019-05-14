@@ -5,7 +5,7 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">Modal show phone</p>
+        <p class="modal-card-title">Show {{item.name}} Detail</p>
         <button class="delete" aria-label="close" @click="close"></button>
       </header>
       <section class="modal-card-body">
@@ -18,16 +18,6 @@
          <li class="panel-block">
           <label class="column is-2"><b>email</b></label>{{item.email}}
         </li>
-
-
-        <!-- <div class="columns is-mobile">
-          <label>name</label>
-          <div class="column is-dark">{{item.name}}</div>
-           <label>phone</label>
-          <div class="column">{{item.phone}}</div>
-           <label>email</label>
-          <div class="column">{{item.email}} </div>
-        </div> -->
       </section>
       <footer class="modal-card-foot">
         <button class="button" @click="close">Cancel</button>

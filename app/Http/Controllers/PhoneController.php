@@ -28,42 +28,23 @@ class PhoneController extends Controller
     {
 
            phone::create($req->all());
+          return response()->json(['msg'=>'phone created successfully']);
     }
 
- 
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\phone  $phone
-     * @return \Illuminate\Http\Response
-     */
     public function edit(phone $phone)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\phone  $phone
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, phone $phone)
+    public function update(phonebook $req)
     {
-        //
+        phone::find($req->id)->update($req->all());
+        return response()->json(['msg'=>'phone updated successfully']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Model\phone  $phone
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(phone $phone)
+    public function destroy($id)
     {
-        //
+        phone::find($id)->delete();
+        return response()->json(['msg'=>'phone deleted successfully']);
     }
 }
