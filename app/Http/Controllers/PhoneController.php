@@ -30,11 +30,7 @@ class PhoneController extends Controller
            phone::create($req->all());
     }
 
-    public function show_detail($id)
-    {
-        return phone::find($id);
-    }
-
+ 
 
 
     /**

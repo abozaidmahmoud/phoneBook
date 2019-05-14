@@ -37,7 +37,7 @@
 
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success" @click="save">Save changes</button>
+        <button class="button is-success" @click="function_name">Save changes</button>
         <button class="button" @click="close">Cancel</button>
       </footer>
     </div>
@@ -46,7 +46,16 @@
 
 <script>
 export default {
-  props: ["active"],
+  // props: ["active",'function_name'],
+  props:{
+    active:{
+    },
+    function_name:{
+      default:'add'
+    }
+
+  },
+
   data() {
     return {
       list: {
@@ -65,10 +74,8 @@ export default {
       this.errors={};
     },
 
-
-
     save() {
-      var self = this;
+      // var self = this;
       axios
         .post("/phonebook", this.list)
           .then((response)=>{
@@ -81,9 +88,7 @@ export default {
               this.errors= error.response.data.errors
 
            )
-       
-        // .catch(function(error) {
-        // });
+     
     }
   }
 };

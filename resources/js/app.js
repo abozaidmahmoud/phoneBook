@@ -14,7 +14,6 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 let myheader = require('./components/myheader.vue').default;
 let myfooter = require('./components/myfooter.vue').default;

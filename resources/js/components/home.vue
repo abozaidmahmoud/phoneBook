@@ -20,7 +20,7 @@
              <i class="has-text-danger fa fa-trash" aria-hidden="true"></i>
           </span>
             <span class="panel-icon column is-1">
-             <i class="has-text-dark fa fa-edit" aria-hidden="true"></i>
+             <i class="has-text-dark fa fa-edit" aria-hidden="true" @click=update(item)></i>
           </span>
             <span class="panel-icon column is-1">
              <i class="has-text-info fa fa-eye" aria-hidden="true" @click="showDetail(item)"></i>
@@ -29,8 +29,8 @@
         </a>
     </nav>
 <!--Modal phoneBook add-->
-    <Add v-bind:active="is_active" @closeModal="removeActive"></Add>
-    <Show v-bind:active="modal_show_active" v-bind:item="arr" @closeModal="removeActive"> </Show>
+    <Add v-bind:active="is_active" v-bind:function_name="function_name" @closeModal="removeActive"></Add>
+    <Show v-bind:active="modal_show_active"  @closeModal="removeActive"> </Show>
 
 
     </div>
@@ -48,7 +48,8 @@
                 list:{},
                 errors:'',
                 modal_show_active:'',
-                arr:'',
+                phone_item:'',
+                function_name:''
 
             }
         },
@@ -72,20 +73,19 @@
             },
 
             showDetail(item){
+                console.log(this.$children);
+                 this.$children[1].item=item;
+
                 this.modal_show_active='is-active';
 
-                axios.get('showData/'+item.id)
-                    .then((response)=>{
-                        console.log(response.data);
-                        this.arr=response.data;
-                    })
-                    .catch((error)=>{
-                        this.errors=error.response.data.errors;
-                    })
-
-
-
+              
+            },
+            update(item){
+                this.is_active='is-active';
+                this.function_name='update';
+                this.$children[0].list={name:item.name,phone:item.phone,email:item.email};
             }
+
         }
     })
 </script>
