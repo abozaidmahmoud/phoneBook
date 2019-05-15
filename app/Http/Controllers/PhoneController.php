@@ -19,10 +19,10 @@ class PhoneController extends Controller
     }
 
 
-    public function search(Request $req,$key){
-        $items=phone::where('name','like','%'.$key.'%')->get();
-        return $items;
-    }
+//    public function search(Request $req,$key){
+//        $items=phone::where('name','like','%'.$key.'%')->get();
+//        return $items;
+//    }
     public function create()
     {
         //

@@ -9,7 +9,7 @@
 }
   .item_msg{
     text-align: center;
-    color:red;
+    color:#7a7a7a;
   }
   .icon_search{
     top:6px !important;
@@ -32,13 +32,13 @@
       </p>
       <div class="panel-block">
         <p class="control has-icons-left">
-          <input class="input is-small" type="text" v-model="search" @keyup="search_item()" placeholder="search">
+          <input class="input is-small" type="text" v-model="search"  placeholder="search">
           <span class="icon is-small is-left icon_search">
             <i class="fa fa-search " aria-hidden="true"></i>
           </span>
         </p>
       </div>
-      <a class="panel-block" v-for="item,key in list">
+      <a class="panel-block" v-for="item,key in tmp">
         <span class="column is-9">{{item.name}}</span>
         <span class="panel-icon column is-1">
           <i class="has-text-danger fa fa-trash" @click="delete_item(item,key)" aria-hidden="true"></i>
@@ -55,7 +55,7 @@
     <Add v-bind:active="is_active" @show_msg="show_msg" @closeModal="removeActive"></Add>
     <Show v-bind:active="modal_show_active" @closeModal="removeActive"></Show>
     <Update v-bind:active="modal_update_active" @show_msg="show_msg" @closeModal="removeActive"></Update>
-    <p  class="item_msg is-info "></p>
+    <p v-if="tmp.length<=0" class="item_msg is-info"></p>
   </div>
 
 </template>
@@ -71,6 +71,7 @@ export default {
     return {
       is_active: false,
       list: {},
+      tmp:'',
       errors: "",
       modal_show_active: "",
       modal_update_active: "",
@@ -84,7 +85,7 @@ export default {
     axios
       .post("getData")
       .then(response => {
-        this.list = response.data;
+        this.list = this.tmp=response.data;
       })
       .catch(error => {
         this.errors = error.response.data.errors;
@@ -112,6 +113,7 @@ export default {
           .delete(`/phonebook/${item.id}`, this.list)
           .then(response => {
             this.list.splice(key, 1);
+            this.tmp.splice(key, 1);
             this.msg = response.data.msg;
           })
           .catch(error => {});
@@ -120,26 +122,41 @@ export default {
     show_msg(msg) {
       this.msg = msg;
     },
-    search_item(){
-        axios
-            .get(`/search/${this.search}`, this.list)
-            .then((response)=>{
-                if(response.data.length>0){
-                    console.log(' item founded');
-                    this.list=response.data;
-                }else{
-                    console.log(response.data);
-                    this.list='';
-                    $('.item_msg').html('<i class="fa fa-smile-o fa-lg" style="color: #0a0a0a"> </i> No Item Exists');
-                }
-                })
-            .catch((error)=> {
-                    console.log('bad');
-                this.errors = error.response.data.errors
-    }
 
-            )
+
+
+  },
+  watch:{
+    search:function () {
+      // search_item() {
+        if (this.search.length > 0 && this.search.trim() !=='') {
+          this.tmp=this.list.filter((item)=>{
+            return  item.name.indexOf(this.search.trim().toLowerCase())>-1;
+          });
+          if(this.tmp.length<=0){
+            console.log('ddd');
+            $('.item_msg').html('<i class="fa fa-smile-o fa-lg" style="color: #0a0a0a"> </i> No Item Exists');
+          }
+
+          // axios
+          //         .get(`/search/${this.search}`, this.list)
+          //         .then((response) => {
+          //           if (response.data.length > 0) {
+          //             this.tmp = response.data;
+          //           } else {
+          //             this.tmp = '';
+          //             $('.item_msg').html('<i class="fa fa-smile-o fa-lg" style="color: #0a0a0a"> </i> No Item Exists');
+          //           }
+          //         })
+          //         .catch((error) => {
+          //                   this.errors = error.response.data.errors
+          //                 }
+          //         )
+        }else{
+          this.tmp=this.list;
+        }
+      // }
     }
-  }
+  },
 };
 </script>

@@ -1945,6 +1945,7 @@ var Update = __webpack_require__(/*! ./update.vue */ "./resources/js/components/
     return {
       is_active: false,
       list: {},
+      tmp: '',
       errors: "",
       modal_show_active: "",
       modal_update_active: "",
@@ -1957,7 +1958,7 @@ var Update = __webpack_require__(/*! ./update.vue */ "./resources/js/components/
     var _this = this;
 
     axios.post("getData").then(function (response) {
-      _this.list = response.data;
+      _this.list = _this.tmp = response.data;
     })["catch"](function (error) {
       _this.errors = error.response.data.errors;
     });
@@ -1983,28 +1984,47 @@ var Update = __webpack_require__(/*! ./update.vue */ "./resources/js/components/
       axios["delete"]("/phonebook/".concat(item.id), this.list).then(function (response) {
         _this2.list.splice(key, 1);
 
+        _this2.tmp.splice(key, 1);
+
         _this2.msg = response.data.msg;
       })["catch"](function (error) {});
     },
     show_msg: function show_msg(msg) {
       this.msg = msg;
-    },
-    search_item: function search_item() {
+    }
+  },
+  watch: {
+    search: function search() {
       var _this3 = this;
 
-      axios.get("/search/".concat(this.search), this.list).then(function (response) {
-        if (response.data.length > 0) {
-          console.log(' item founded');
-          _this3.list = response.data;
-        } else {
-          console.log(response.data);
-          _this3.list = '';
+      // search_item() {
+      if (this.search.length > 0 && this.search.trim() !== '') {
+        this.tmp = this.list.filter(function (item) {
+          return item.name.indexOf(_this3.search.trim().toLowerCase()) > -1;
+        });
+
+        if (this.tmp.length <= 0) {
+          console.log('ddd');
           $('.item_msg').html('<i class="fa fa-smile-o fa-lg" style="color: #0a0a0a"> </i> No Item Exists');
-        }
-      })["catch"](function (error) {
-        console.log('bad');
-        _this3.errors = error.response.data.errors;
-      });
+        } // axios
+        //         .get(`/search/${this.search}`, this.list)
+        //         .then((response) => {
+        //           if (response.data.length > 0) {
+        //             this.tmp = response.data;
+        //           } else {
+        //             this.tmp = '';
+        //             $('.item_msg').html('<i class="fa fa-smile-o fa-lg" style="color: #0a0a0a"> </i> No Item Exists');
+        //           }
+        //         })
+        //         .catch((error) => {
+        //                   this.errors = error.response.data.errors
+        //                 }
+        //         )
+
+      } else {
+        this.tmp = this.list;
+      } // }
+
     }
   }
 });
@@ -6630,7 +6650,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.msg {\n  position: absolute;\n  right: 2px;\n  top: 2px;\n  height: 52px;\n  padding: 15px;\n}\n.item_msg{\n    text-align: center;\n    color:red;\n}\n.icon_search{\n    top:6px !important;\n    left: 5px !important;\n}\n", ""]);
+exports.push([module.i, "\n.msg {\n  position: absolute;\n  right: 2px;\n  top: 2px;\n  height: 52px;\n  padding: 15px;\n}\n.item_msg{\n    text-align: center;\n    color:#7a7a7a;\n}\n.icon_search{\n    top:6px !important;\n    left: 5px !important;\n}\n", ""]);
 
 // exports
 
@@ -38453,9 +38473,6 @@ var render = function() {
                 attrs: { type: "text", placeholder: "search" },
                 domProps: { value: _vm.search },
                 on: {
-                  keyup: function($event) {
-                    return _vm.search_item()
-                  },
                   input: function($event) {
                     if ($event.target.composing) {
                       return
@@ -38469,7 +38486,7 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _vm._l(_vm.list, function(item, key) {
+          _vm._l(_vm.tmp, function(item, key) {
             return _c("a", { staticClass: "panel-block" }, [
               _c("span", { staticClass: "column is-9" }, [
                 _vm._v(_vm._s(item.name))
@@ -38531,7 +38548,9 @@ var render = function() {
         on: { show_msg: _vm.show_msg, closeModal: _vm.removeActive }
       }),
       _vm._v(" "),
-      _c("p", { staticClass: "item_msg is-info " })
+      _vm.tmp.length <= 0
+        ? _c("p", { staticClass: "item_msg is-info" })
+        : _vm._e()
     ],
     1
   )
@@ -54391,8 +54410,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /opt/lampp/htdocs/phonebook_update/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /opt/lampp/htdocs/phonebook_update/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /opt/lampp/htdocs/PhoneBook/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/PhoneBook/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
