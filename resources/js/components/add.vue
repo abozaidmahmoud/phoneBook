@@ -46,7 +46,6 @@
 
 <script>
 export default {
-  // props: ["active",'function_name'],
   props:['active'],
 
   data() {
@@ -72,6 +71,9 @@ export default {
       axios
         .post("/phonebook", this.list)
           .then((response)=>{
+            console.log(this.$data.list);
+              this.$parent.list.push(response.data.item);
+              this.$parent.list.sort();
               this.close();
               this.list={};
               this.$emit('show_msg',response.data.msg);

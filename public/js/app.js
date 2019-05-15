@@ -1810,7 +1810,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  // props: ["active",'function_name'],
   props: ['active'],
   data: function data() {
     return {
@@ -1833,6 +1832,12 @@ __webpack_require__.r(__webpack_exports__);
 
       // var self = this;
       axios.post("/phonebook", this.list).then(function (response) {
+        console.log(_this.$data.list);
+
+        _this.$parent.list.push(response.data.item);
+
+        _this.$parent.list.sort();
+
         _this.close();
 
         _this.list = {};
@@ -1924,16 +1929,16 @@ var Update = __webpack_require__(/*! ./update.vue */ "./resources/js/components/
     return {
       is_active: false,
       list: {},
-      errors: '',
-      modal_show_active: '',
-      modal_update_active: '',
-      msg: ''
+      errors: "",
+      modal_show_active: "",
+      modal_update_active: "",
+      msg: ""
     };
   },
   created: function created() {
     var _this = this;
 
-    axios.post('getData').then(function (response) {
+    axios.post("getData").then(function (response) {
       _this.list = response.data;
     })["catch"](function (error) {
       _this.errors = error.response.data.errors;
@@ -1941,27 +1946,22 @@ var Update = __webpack_require__(/*! ./update.vue */ "./resources/js/components/
   },
   methods: {
     addActive: function addActive() {
-      this.is_active = 'is-active';
+      this.is_active = "is-active";
     },
     removeActive: function removeActive() {
-      this.is_active = this.modal_show_active = this.modal_update_active = '';
+      this.is_active = this.modal_show_active = this.modal_update_active = "";
     },
     showDetail: function showDetail(item) {
       this.$children[1].item = item;
-      this.modal_show_active = 'is-active';
+      this.modal_show_active = "is-active";
     },
     update: function update(item) {
       this.$children[2].list = item;
-      this.modal_update_active = 'is-active';
+      this.modal_update_active = "is-active";
     },
     delete_item: function delete_item(item, key) {
       var _this2 = this;
 
-      swal({
-        title: "Sweet!",
-        text: "Here's a custom image.",
-        imageUrl: 'thumbs-up.jpg'
-      });
       axios["delete"]("/phonebook/".concat(item.id), this.list).then(function (response) {
         _this2.list.splice(key, 1);
 
@@ -6595,7 +6595,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.msg{\n    position: absolute;\n    right: 2px;\n    top:2px;\n    height: 52px;\n    padding: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.msg {\n  position: absolute;\n  right: 2px;\n  top: 2px;\n  height: 52px;\n  padding: 15px;\n}\n", ""]);
 
 // exports
 
@@ -38385,11 +38385,11 @@ var render = function() {
         { staticClass: "panel" },
         [
           _c("p", { staticClass: "panel-heading" }, [
-            _vm._v("\n            PhoneBook\n           "),
+            _vm._v("\n      PhoneBook\n      "),
             _vm.msg
               ? _c("span", { staticClass: "notification is-warning msg" }, [
                   _c("i", { staticClass: "fa fa-thumbs-up" }),
-                  _vm._v(" " + _vm._s(_vm.msg))
+                  _vm._v("\n        " + _vm._s(_vm.msg) + "\n      ")
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -38399,7 +38399,7 @@ var render = function() {
                 staticClass: "button is-primary is-bordered",
                 on: { click: _vm.addActive }
               },
-              [_c("i", { staticClass: "fa fa-plus" }), _vm._v(" Add")]
+              [_c("i", { staticClass: "fa fa-plus" }), _vm._v(" Add\n      ")]
             )
           ]),
           _vm._v(" "),
@@ -54334,8 +54334,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /opt/lampp/htdocs/phonebook_update/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /opt/lampp/htdocs/phonebook_update/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /opt/lampp/htdocs/PhoneBook/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/PhoneBook/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

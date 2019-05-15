@@ -15,7 +15,7 @@ class PhoneController extends Controller
     }
 
     public function getData(){
-        return phone::all();
+        return phone::orderBy('name','Asc')->get();
     }
   
     public function create()
@@ -27,8 +27,8 @@ class PhoneController extends Controller
     public function store(phonebook $req)
     {
 
-           phone::create($req->all());
-          return response()->json(['msg'=>'phone created successfully']);
+          $phone=phone::create($req->all());
+          return response()->json(['msg'=>'phone created successfully','item'=>$phone]);
     }
 
     public function edit(phone $phone)
