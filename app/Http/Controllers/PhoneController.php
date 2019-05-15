@@ -17,7 +17,12 @@ class PhoneController extends Controller
     public function getData(){
         return phone::orderBy('name','Asc')->get();
     }
-  
+
+
+    public function search(Request $req,$key){
+        $items=phone::where('name','like','%'.$key.'%')->get();
+        return $items;
+    }
     public function create()
     {
         //

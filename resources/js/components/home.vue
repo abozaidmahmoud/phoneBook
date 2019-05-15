@@ -7,6 +7,14 @@
   height: 52px;
   padding: 15px;
 }
+  .item_msg{
+    text-align: center;
+    color:red;
+  }
+  .icon_search{
+    top:6px !important;
+    left: 5px !important;
+  }
 </style>
 
 <template>
@@ -24,9 +32,9 @@
       </p>
       <div class="panel-block">
         <p class="control has-icons-left">
-          <input class="input is-small" type="text" placeholder="search">
-          <span class="icon is-small is-left">
-            <i class="fa fa-search" aria-hidden="true"></i>
+          <input class="input is-small" type="text" v-model="search" @keyup="search_item()" placeholder="search">
+          <span class="icon is-small is-left icon_search">
+            <i class="fa fa-search " aria-hidden="true"></i>
           </span>
         </p>
       </div>
@@ -47,7 +55,9 @@
     <Add v-bind:active="is_active" @show_msg="show_msg" @closeModal="removeActive"></Add>
     <Show v-bind:active="modal_show_active" @closeModal="removeActive"></Show>
     <Update v-bind:active="modal_update_active" @show_msg="show_msg" @closeModal="removeActive"></Update>
+    <p  class="item_msg is-info "></p>
   </div>
+
 </template>
 
 <script>
@@ -64,7 +74,9 @@ export default {
       errors: "",
       modal_show_active: "",
       modal_update_active: "",
-      msg: ""
+      msg: "",
+      search:'',
+      noitem_msg:'',
     };
   },
 
@@ -96,10 +108,6 @@ export default {
       this.modal_update_active = "is-active";
     },
     delete_item(item, key) {
-   
-
-
-
         axios
           .delete(`/phonebook/${item.id}`, this.list)
           .then(response => {
@@ -111,6 +119,26 @@ export default {
 
     show_msg(msg) {
       this.msg = msg;
+    },
+    search_item(){
+        axios
+            .get(`/search/${this.search}`, this.list)
+            .then((response)=>{
+                if(response.data.length>0){
+                    console.log(' item founded');
+                    this.list=response.data;
+                }else{
+                    console.log(response.data);
+                    this.list='';
+                    $('.item_msg').html('<i class="fa fa-smile-o fa-lg" style="color: #0a0a0a"> </i> No Item Exists');
+                }
+                })
+            .catch((error)=> {
+                    console.log('bad');
+                this.errors = error.response.data.errors
+    }
+
+            )
     }
   }
 };

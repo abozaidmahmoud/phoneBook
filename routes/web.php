@@ -21,3 +21,5 @@ Route::get('/phonebook/{route}', function ($route = null) {
 
 Route::resource('phonebook','PhoneController');
 Route::post('getData','PhoneController@getData');
+
+Route::get('search/{key}','PhoneController@search');

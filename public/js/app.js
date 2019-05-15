@@ -1836,7 +1836,13 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$parent.list.push(response.data.item);
 
-        _this.$parent.list.sort();
+        _this.$parent.list.sort(function (a, b) {
+          if (a.name > b.name) {
+            return 1; //second item comes before first item
+          } else if (a.name < b.name) {
+            return -1; //first item come before second itmm
+          }
+        });
 
         _this.close();
 
@@ -1913,6 +1919,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var Add = __webpack_require__(/*! ./add.vue */ "./resources/js/components/add.vue")["default"];
 
 var Show = __webpack_require__(/*! ./show.vue */ "./resources/js/components/show.vue")["default"];
@@ -1932,7 +1948,9 @@ var Update = __webpack_require__(/*! ./update.vue */ "./resources/js/components/
       errors: "",
       modal_show_active: "",
       modal_update_active: "",
-      msg: ""
+      msg: "",
+      search: '',
+      noitem_msg: ''
     };
   },
   created: function created() {
@@ -1970,6 +1988,23 @@ var Update = __webpack_require__(/*! ./update.vue */ "./resources/js/components/
     },
     show_msg: function show_msg(msg) {
       this.msg = msg;
+    },
+    search_item: function search_item() {
+      var _this3 = this;
+
+      axios.get("/search/".concat(this.search), this.list).then(function (response) {
+        if (response.data.length > 0) {
+          console.log(' item founded');
+          _this3.list = response.data;
+        } else {
+          console.log(response.data);
+          _this3.list = '';
+          $('.item_msg').html('<i class="fa fa-smile-o fa-lg" style="color: #0a0a0a"> </i> No Item Exists');
+        }
+      })["catch"](function (error) {
+        console.log('bad');
+        _this3.errors = error.response.data.errors;
+      });
     }
   }
 });
@@ -6595,7 +6630,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.msg {\n  position: absolute;\n  right: 2px;\n  top: 2px;\n  height: 52px;\n  padding: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.msg {\n  position: absolute;\n  right: 2px;\n  top: 2px;\n  height: 52px;\n  padding: 15px;\n}\n.item_msg{\n    text-align: center;\n    color:red;\n}\n.icon_search{\n    top:6px !important;\n    left: 5px !important;\n}\n", ""]);
 
 // exports
 
@@ -38403,7 +38438,36 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(0),
+          _c("div", { staticClass: "panel-block" }, [
+            _c("p", { staticClass: "control has-icons-left" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search,
+                    expression: "search"
+                  }
+                ],
+                staticClass: "input is-small",
+                attrs: { type: "text", placeholder: "search" },
+                domProps: { value: _vm.search },
+                on: {
+                  keyup: function($event) {
+                    return _vm.search_item()
+                  },
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.search = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm._m(0)
+            ])
+          ]),
           _vm._v(" "),
           _vm._l(_vm.list, function(item, key) {
             return _c("a", { staticClass: "panel-block" }, [
@@ -38465,7 +38529,9 @@ var render = function() {
       _c("Update", {
         attrs: { active: _vm.modal_update_active },
         on: { show_msg: _vm.show_msg, closeModal: _vm.removeActive }
-      })
+      }),
+      _vm._v(" "),
+      _c("p", { staticClass: "item_msg is-info " })
     ],
     1
   )
@@ -38475,20 +38541,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "panel-block" }, [
-      _c("p", { staticClass: "control has-icons-left" }, [
-        _c("input", {
-          staticClass: "input is-small",
-          attrs: { type: "text", placeholder: "search" }
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "icon is-small is-left" }, [
-          _c("i", {
-            staticClass: "fa fa-search",
-            attrs: { "aria-hidden": "true" }
-          })
-        ])
-      ])
+    return _c("span", { staticClass: "icon is-small is-left icon_search" }, [
+      _c("i", {
+        staticClass: "fa fa-search ",
+        attrs: { "aria-hidden": "true" }
+      })
     ])
   }
 ]
@@ -54334,8 +54391,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /opt/lampp/htdocs/PhoneBook/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /opt/lampp/htdocs/PhoneBook/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /opt/lampp/htdocs/phonebook_update/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/phonebook_update/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

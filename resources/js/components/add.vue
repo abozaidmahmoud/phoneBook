@@ -73,7 +73,13 @@ export default {
           .then((response)=>{
             console.log(this.$data.list);
               this.$parent.list.push(response.data.item);
-              this.$parent.list.sort();
+              this.$parent.list.sort(function (a,b) {
+                  if(a.name>b.name){
+                      return 1; //second item comes before first item
+                  }else if(a.name<b.name){
+                      return -1; //first item come before second itmm
+                  }
+              });
               this.close();
               this.list={};
               this.$emit('show_msg',response.data.msg);
