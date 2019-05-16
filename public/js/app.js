@@ -2000,11 +2000,13 @@ var Update = __webpack_require__(/*! ./update.vue */ "./resources/js/components/
       // search_item() {
       if (this.search.length > 0 && this.search.trim() !== '') {
         this.tmp = this.list.filter(function (item) {
-          return item.name.indexOf(_this3.search.trim().toLowerCase()) > -1;
+          return Object.keys(item).some(function (key) {
+            var string = String(item[key]);
+            return string.toLowerCase().indexOf(_this3.search.trim().toLowerCase()) > -1;
+          });
         });
 
         if (this.tmp.length <= 0) {
-          console.log('ddd');
           $('.item_msg').html('<i class="fa fa-smile-o fa-lg" style="color: #0a0a0a"> </i> No Item Exists');
         } // axios
         //         .get(`/search/${this.search}`, this.list)
@@ -38225,12 +38227,13 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("section", { staticClass: "section" }, [
       _c("div", { staticClass: "container" }, [
-        _c("h1", { staticClass: "title" }, [_vm._v("Section")]),
+        _c("h1", { staticClass: "title" }, [_vm._v("About")]),
         _vm._v(" "),
         _c("h2", { staticClass: "subtitle" }, [
-          _vm._v("\n            A simple container to divide your page into "),
-          _c("strong", [_vm._v("sections")]),
-          _vm._v(", like the one you're currently reading\n        ")
+          _vm._v(
+            "\n           Mahmoud abozaid Full stack PHP Dveloper  mob(+966)582302464\n            "
+          ),
+          _c("p", [_vm._v("Email:: abozaidmahmoud76@gmail.com")])
         ])
       ])
     ])
@@ -54410,8 +54413,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /opt/lampp/htdocs/PhoneBook/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /opt/lampp/htdocs/PhoneBook/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /opt/lampp/htdocs/phonebook_update/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/phonebook_update/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

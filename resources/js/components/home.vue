@@ -131,10 +131,14 @@ export default {
       // search_item() {
         if (this.search.length > 0 && this.search.trim() !=='') {
           this.tmp=this.list.filter((item)=>{
-            return  item.name.indexOf(this.search.trim().toLowerCase())>-1;
+              return  Object.keys(item).some((key)=>{
+                 let string=String(item[key]);
+                 return  string.toLowerCase().indexOf(this.search.trim().toLowerCase())>-1;
+             });
+
+
           });
           if(this.tmp.length<=0){
-            console.log('ddd');
             $('.item_msg').html('<i class="fa fa-smile-o fa-lg" style="color: #0a0a0a"> </i> No Item Exists');
           }
 
